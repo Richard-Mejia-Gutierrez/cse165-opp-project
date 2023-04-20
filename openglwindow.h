@@ -4,6 +4,8 @@
 
 #include <QWindow>
 #include <QOpenGLFunctions>
+#include <QKeyEvent>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -24,10 +26,14 @@ class OpenGLWindow : public QWindow, protected QOpenGLFunctions
         virtual void initialize();
 
         void setAnimating(bool animating);
+        void sendKey();
 
     public slots:
         void renderLater();
         void renderNow();
+
+    signals:
+//        void key(QEvent *event);
 
     protected:
         bool event(QEvent *event) override;
@@ -39,6 +45,8 @@ class OpenGLWindow : public QWindow, protected QOpenGLFunctions
 
         QOpenGLContext *m_context = nullptr;
         QOpenGLPaintDevice *m_device = nullptr;
+
+        void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // OPENGLWINDOW_H
