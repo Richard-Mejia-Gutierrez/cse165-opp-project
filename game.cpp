@@ -3,6 +3,6 @@
 
 game::game()
 {
-
+    p_pacman = new PacMan();
 }
 

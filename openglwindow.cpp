@@ -8,6 +8,14 @@ OpenGLWindow::OpenGLWindow(QWindow *parent)
     : QWindow(parent)
 {
     setSurfaceType(QWindow::OpenGLSurface);
+    p_game = new game();
+    QObject::connect(this, &OpenGLWindow::key,p_game->p_pacman, &PacMan::revicedKey);
+
+//i was thinking of sending a signal back to window in main to chage
+//    position of render
+
+//    QObject::connect(p_game->p_pacman, &PacMan::, this, &OpenGLWindow::);
+
 }
 
 OpenGLWindow::~OpenGLWindow()
@@ -102,6 +110,9 @@ void OpenGLWindow::setAnimating(bool animating)
 
 void OpenGLWindow::keyPressEvent(QKeyEvent *event)
 {
-    if((char)event->key() == 'W' || (char)event->key() == 'A' || (char)event->key() == 'S' || (char)event->key() == 'D')
-        qDebug() << "Pressed key: " << (char) event->key();
+//    if((char)event->key() == 'W' || (char)event->key() == 'A' || (char)event->key() == 'S' || (char)event->key() == 'D')
+//        qDebug() << "Pressed key: " << (char) event->key();
+    emit key(event);
 }
+
+

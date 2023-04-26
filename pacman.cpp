@@ -4,14 +4,38 @@
 
 PacMan::PacMan()
 {
+    x=0;y=0;
 }
 
-//void PacMan::reciveKey(){
-//    qDebug() << "Pressed key: " << (char) ();
-//}
 
-void PacMan::keyPressEvent(QKeyEvent *event)
+void PacMan::revicedKey(QKeyEvent* event)
 {
-    if((char)event->key() == 'W' || (char)event->key() == 'A' || (char)event->key() == 'S' || (char)event->key() == 'D')
-        qDebug() << "Pressed key: " << (char) event->key();
+    switch((char)event->key())
+    {
+        case 'W':
+            dir = up;
+            break;
+        case 'A':
+            dir = left;
+            break;
+        case 'S':
+            dir = down;
+            break;
+        case 'D':
+            dir = right;
+            break;
+    }
+        qDebug() << dir;
+    emit changedir(dir);
 }
+
+int PacMan::getx(){
+    return x;
+}
+int PacMan::gety(){
+    return y;
+}
+
+//int PacMan::move(){
+
+//}

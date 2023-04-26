@@ -40,21 +40,31 @@ const char *fragmentShaderSource = "#version 330 core\n"
 
 class TriangleWindow : public OpenGLWindow
 {
-public:
-    using OpenGLWindow::OpenGLWindow;
 
-    void initialize() override;
-    void render() override;
+    public:
+        using OpenGLWindow::OpenGLWindow;
 
-private:
-//    GLint m_posAttr = 0;
-//    GLint m_colAttr = 0;
-    GLint m_matrixUniform = 0;
+        void initialize() override;
+        void render() override;
+        int getPacsDir();
+        QMatrix4x4 matrix;
+//        int getPacsX();
+//        int getPacsY();
 
-    GLint m_aPos = 0;
+//      void keyPressEvent(QKeyEvent *event) override;
+//      QMatrix4x4& getMatrix (QMatrix4x4&);
+    public slots:
+//      void changeddir(PacMan::direction);
+    private:
+        GLint m_matrixUniform = 0;
+        GLint m_aPos = 0;
+        QOpenGLShaderProgram *m_program = nullptr;
+        int m_frame = 0;
+        QMatrix4x4& getDirAsMatrix(QMatrix4x4&);
+//      PacMan::direction dir;
+//      GLint m_posAttr = 0;
+//      GLint m_colAttr = 0;
 
-    QOpenGLShaderProgram *m_program = nullptr;
-    int m_frame = 0;
 };
 
 int main(int argc, char **argv)
@@ -65,6 +75,7 @@ int main(int argc, char **argv)
     format.setSamples(16);
 
     TriangleWindow window;
+
     window.setFormat(format);
     window.resize(640, 480);
     window.show();
@@ -73,6 +84,10 @@ int main(int argc, char **argv)
 
     return app.exec();
 }
+
+//TriangleWindow::TriangleWindow(){
+//    QObject::connect(p_game->p_pacman, &PacMan::changedir, this, &TriangleWindow::changedir);
+//}
 
 void TriangleWindow::initialize()
 {
@@ -88,6 +103,8 @@ void TriangleWindow::initialize()
 //    Q_ASSERT(m_matrixUniform != -1);
     m_aPos = m_program->attributeLocation("aPos");
     Q_ASSERT(m_aPos != -1);
+//    QObject::connect(p_game->p_pacman, &PacMan::changedir, this, &TriangleWindow::changeddir);
+//    matrix->translate(.1*m_frame/screen()->refreshRate(), 0, 0);
 }
 
 void TriangleWindow::render()
@@ -99,11 +116,11 @@ void TriangleWindow::render()
 
     m_program->bind();
 
-    QMatrix4x4 matrix;
+//    matrix.ortho(0,0,1,1,0,0);
+    getDirAsMatrix(matrix);
 //    matrix.perspective(60.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-    matrix.translate(.1*m_frame/screen()->refreshRate(), 0, 0);
+//    matrix.translate(.1*m_frame/screen()->refreshRate(), 0, 0);
 //    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
-
     m_program->setUniformValue(m_matrixUniform, matrix);
 
 //    static const GLfloat vertices[] = {
@@ -134,18 +151,43 @@ void TriangleWindow::render()
     };
 //    glVertexAttribPointer(m_posAttr, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 //    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors);
-    glVertexAttribPointer(m_aPos, 3, GL_FLOAT, GL_FALSE, 0, vertices);
 //    glEnableVertexAttribArray(m_posAttr);
 //    glEnableVertexAttribArray(m_colAttr);
+    glVertexAttribPointer(m_aPos, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glEnableVertexAttribArray(m_aPos);
-
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
 //    glDisableVertexAttribArray(m_colAttr);
 //    glDisableVertexAttribArray(m_posAttr);
     glDisableVertexAttribArray(m_aPos);
-
     m_program->release();
 
     ++m_frame;
+}
+
+int TriangleWindow::getPacsDir(){
+    return p_game->p_pacman->dir;
+}
+
+QMatrix4x4& TriangleWindow::getDirAsMatrix(QMatrix4x4& matrix){
+    matrix.setToIdentity();
+    switch(getPacsDir())
+    {
+    case PacMan::up:
+        matrix.translate(0, float(2/11.0) * p_game->p_pacman->gety(), 0);
+        break;
+    case PacMan::left:
+
+        matrix.translate(float(-2/11) * p_game->p_pacman->getx(), 0, 0);
+        break;
+    case PacMan::down:
+
+        matrix.translate(0,float(-2/11.0) * p_game->p_pacman->gety(), 0);
+        break;
+    case PacMan::right:
+
+        matrix.translate(float(2/11)*p_game->p_pacman->getx(), 0, 0);
+        break;
+    }
+    return matrix;
 }
