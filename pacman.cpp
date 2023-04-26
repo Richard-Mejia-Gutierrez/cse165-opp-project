@@ -7,6 +7,10 @@ PacMan::PacMan()
     x=0;y=0;
 }
 
+PacMan::PacMan(int _x, int _y){
+    x=_x;
+    y=_y;
+}
 
 void PacMan::revicedKey(QKeyEvent* event)
 {
@@ -36,6 +40,11 @@ int PacMan::gety(){
     return y;
 }
 
-//int PacMan::move(){
-
-//}
+void PacMan::move(){
+    if (dir == right||dir==down){
+            x=+1;
+    }
+}
+void PacMan::print(){
+    emit pacsPos( getx(), gety());
+}

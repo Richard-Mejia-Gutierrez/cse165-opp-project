@@ -163,6 +163,7 @@ void TriangleWindow::render()
     m_program->release();
 
     ++m_frame;
+    p_game->print();
 }
 
 int TriangleWindow::getPacsDir(){

@@ -3,12 +3,14 @@
 #define GAME_H
 
 #include "pacman.h"
+#include <iostream>
 
 const int ROWS = 11;
 const int COLS = 11;
 
-class game
+class game: public QObject
 {
+    Q_OBJECT
 public:
     game();
     PacMan* p_pacman;
@@ -26,7 +28,9 @@ public:
         {1,1,1,1,1,1,1,1,1,1,1}
     };
 
-
+    void print();
+  public slots:
+    void getPacPos(int, int);
 };
 
 #endif // GAME_H
