@@ -109,60 +109,60 @@ void TriangleWindow::initialize()
 
 void TriangleWindow::render()
 {
-    const qreal retinaScale = devicePixelRatio();
-    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
+//    const qreal retinaScale = devicePixelRatio();
+//    glViewport(0, 0, width() * retinaScale, height() * retinaScale);
 
-    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_COLOR_BUFFER_BIT);
 
-    m_program->bind();
+//    m_program->bind();
 
-//    matrix.ortho(0,0,1,1,0,0);
-    getDirAsMatrix(matrix);
-//    matrix.perspective(60.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-//    matrix.translate(.1*m_frame/screen()->refreshRate(), 0, 0);
-//    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
-    m_program->setUniformValue(m_matrixUniform, matrix);
+////    matrix.ortho(0,0,1,1,0,0);
+//    getDirAsMatrix(matrix);
+////    matrix.perspective(60.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+////    matrix.translate(.1*m_frame/screen()->refreshRate(), 0, 0);
+////    matrix.rotate(100.0f * m_frame / screen()->refreshRate(), 0, 1, 0);
+//    m_program->setUniformValue(m_matrixUniform, matrix);
 
-//    static const GLfloat vertices[] = {
-//        0.0f,  0.707f,
-//        -0.5f, -0.5f,
-//        0.5f, -0.5f
-//    };
+////    static const GLfloat vertices[] = {
+////        0.0f,  0.707f,
+////        -0.5f, -0.5f,
+////        0.5f, -0.5f
+////    };
 
-//    static const GLfloat colors[] = {
-//        1.0f, 0.0f, 0.0f,
-//        0.0f, 1.0f, 0.0f,
-//        0.0f, 0.0f, 1.0f
-//    };
+////    static const GLfloat colors[] = {
+////        1.0f, 0.0f, 0.0f,
+////        0.0f, 1.0f, 0.0f,
+////        0.0f, 0.0f, 1.0f
+////    };
+////    float vertices[] = {
+////        -0.5f, -0.5f, 0.0f,
+////        0.5f, -0.5f, 0.0f,
+////        0.0f,  0.5f, 0.0f
+////    };
 //    float vertices[] = {
-//        -0.5f, -0.5f, 0.0f,
-//        0.5f, -0.5f, 0.0f,
-//        0.0f,  0.5f, 0.0f
+//        // first triangle
+//        0.05f,  0.05f, 0.0f,  // top right
+//        0.05f, -0.05f, 0.0f,  // bottom right
+//        -0.05f,  0.05f, 0.0f,  // top left
+//        // second triangle
+//        0.05f, -0.05f, 0.0f,  // bottom right
+//        -0.05f, -0.05f, 0.0f,  // bottom left
+//        -0.05f,  0.05f, 0.0f   // top left
 //    };
-    float vertices[] = {
-        // first triangle
-        0.05f,  0.05f, 0.0f,  // top right
-        0.05f, -0.05f, 0.0f,  // bottom right
-        -0.05f,  0.05f, 0.0f,  // top left
-        // second triangle
-        0.05f, -0.05f, 0.0f,  // bottom right
-        -0.05f, -0.05f, 0.0f,  // bottom left
-        -0.05f,  0.05f, 0.0f   // top left
-    };
-//    glVertexAttribPointer(m_posAttr, 2, GL_FLOAT, GL_FALSE, 0, vertices);
-//    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors);
-//    glEnableVertexAttribArray(m_posAttr);
-//    glEnableVertexAttribArray(m_colAttr);
-    glVertexAttribPointer(m_aPos, 3, GL_FLOAT, GL_FALSE, 0, vertices);
-    glEnableVertexAttribArray(m_aPos);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+////    glVertexAttribPointer(m_posAttr, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+////    glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors);
+////    glEnableVertexAttribArray(m_posAttr);
+////    glEnableVertexAttribArray(m_colAttr);
+//    glVertexAttribPointer(m_aPos, 3, GL_FLOAT, GL_FALSE, 0, vertices);
+//    glEnableVertexAttribArray(m_aPos);
+//    glDrawArrays(GL_TRIANGLES, 0, 6);
 
-//    glDisableVertexAttribArray(m_colAttr);
-//    glDisableVertexAttribArray(m_posAttr);
-    glDisableVertexAttribArray(m_aPos);
-    m_program->release();
+////    glDisableVertexAttribArray(m_colAttr);
+////    glDisableVertexAttribArray(m_posAttr);
+//    glDisableVertexAttribArray(m_aPos);
+//    m_program->release();
 
-    ++m_frame;
+//    ++m_frame;
     p_game->print();
 }
 
@@ -171,23 +171,22 @@ int TriangleWindow::getPacsDir(){
 }
 
 QMatrix4x4& TriangleWindow::getDirAsMatrix(QMatrix4x4& matrix){
-    matrix.setToIdentity();
     switch(getPacsDir())
     {
     case PacMan::up:
-        matrix.translate(0, float(2/11.0) * p_game->p_pacman->gety(), 0);
+        matrix.translate(0, float(2/11.0) * p_game->p_pacman->y, 0);
         break;
     case PacMan::left:
 
-        matrix.translate(float(-2/11) * p_game->p_pacman->getx(), 0, 0);
+        matrix.translate(float(-2/11) * p_game->p_pacman->x, 0, 0);
         break;
     case PacMan::down:
 
-        matrix.translate(0,float(-2/11.0) * p_game->p_pacman->gety(), 0);
+        matrix.translate(0,float(-2/11.0) * p_game->p_pacman->x, 0);
         break;
     case PacMan::right:
 
-        matrix.translate(float(2/11)*p_game->p_pacman->getx(), 0, 0);
+        matrix.translate(float(2/11)*p_game->p_pacman->x, 0, 0);
         break;
     }
     return matrix;
