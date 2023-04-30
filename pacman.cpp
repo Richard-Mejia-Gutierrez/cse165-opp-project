@@ -13,6 +13,7 @@ PacMan::PacMan(int _x, int _y, std::array<std::array<int,11>, 11>* _map){
     y = _y;
     map = _map;
     dir = right;
+    speed = 0.25;
 }
 
 void PacMan::revicedKey(QKeyEvent* event)

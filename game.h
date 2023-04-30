@@ -3,6 +3,7 @@
 #define GAME_H
 
 #include "pacman.h"
+#include "score.h"
 #include <iostream>
 #include <array>
 
@@ -14,6 +15,8 @@ class game: public QObject
     Q_OBJECT
 public:
     PacMan* p_pacman;
+    score* p_score;
+
     std::array<std::array<int,COLS>, ROWS> map = {{
         {1,1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,0,0,0,0,0,0,1},

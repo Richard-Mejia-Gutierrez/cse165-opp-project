@@ -17,6 +17,7 @@ public:
     enum direction {up, right, down, left}dir;
     int x;
     int y;
+    float speed;
     std::array<std::array<int,11>, 11>* map;
     void move(int**);
     void update();
