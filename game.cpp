@@ -2,7 +2,7 @@
 game::game()
 {
     p_pacman = new PacMan(9, 5, &map);
-    p_score = new score(&map);
+//    p_score = new score(&map);
 }
 
 void game::print(){
